@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments :: head}"></head>
+<body>
+
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: h1"></div>
+
+<div class="ml-3 mr-3">
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th><a class="sorted" sd:pagination-sort="id">ID</a></th>
+            <th><a class="sorted" sd:pagination-sort="fullName">Фамилия Имя</a></th>
+            <th><a class="sorted" sd:pagination-sort="tgFirstName">Telegram имя</a></th>
+            <th><a class="sorted" sd:pagination-sort="department">Отдел</a></th>
+            <th><a class="sorted" sd:pagination-sort="role">Роль</a></th>
+            <th><a class="sorted" sd:pagination-sort="createdAt">Дата создания</a></th>
+            <th><a class="sorted" sd:pagination-sort="updatedAt">Дата обновления</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee: ${employees}">
+            <td th:text="${employee.getId()}"/>
+            <td th:text="${employee.getFullName()}"/>
+            <td th:text="${employee.getTgFirstName()}"/>
+            <td th:text="${employee.getDepartment().getName()}"/>
+            <td th:text="${employee.getRole()}"/>
+            <td th:text="${#dates.format(employee.getCreatedAt(), 'dd-MMM-yyyy HH:mm')}"></td>
+            <td th:text="${#dates.format(employee.getUpdatedAt(), 'dd-MMM-yyyy HH:mm')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments :: pagination"></div>
+
+</body>
+</html>

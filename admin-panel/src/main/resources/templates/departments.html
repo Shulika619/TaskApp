@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments :: head}"></head>
+<body>
+
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: h1"></div>
+
+<div th:if="${messageOk}" class="alert alert-success  alert-dismissible fade show text-center" role="alert">
+    <strong th:text="${messageOk}"><i class="fa fa-check-circle"></i></strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div th:if="${messageFail}" class="alert alert-danger  alert-dismissible fade show text-center" role="alert">
+    <strong th:text="${messageFail}"><i class="fa fa-triangle-exclamation"></i></strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div>
+    <ul class="navbar nav ml-auto float-left">
+        <li><a class="btn btn-primary" th:href="@{/departments/new}" role="button"><i class="fa fa-plus"></i> Добавить
+            отдел</a></li>
+    </ul>
+</div>
+
+<div class="ml-3 mr-3">
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th><a class="sorted" sd:pagination-sort="id">ID</a></th>
+            <th><a class="sorted" sd:pagination-sort="name">Название</a></th>
+            <th>Пароль</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="department: ${departments}">
+            <td th:text="${department.getId()}"/>
+            <td th:text="${department.getName()}"/>
+            <td>
+                <button class="btn btn-primary" type="button" data-toggle="collapse"
+                        th:data-target="${'#hidePass'+department.getId()}"
+                        aria-expanded="false">Показать/скрыть
+                </button>
+                <div class="collapse card-body" th:id="${'hidePass'+department.getId()}"
+                     th:text="${department.getPassword()}">
+                </div>
+            </td>
+            <td>
+                <a class="btn btn-success" th:href="${'/departments/'+department.getId()+'/edit'}" role="button"><i
+                        class="fa fa-edit"></i></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments :: pagination"></div>
+
+</body>
+</html>

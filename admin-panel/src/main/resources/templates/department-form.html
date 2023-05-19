@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments :: head}"></head>
+<body>
+
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: h1"></div>
+<div class="dropdown-divider"></div>
+
+<dv class="container">
+        <form th:action="@{/departments/save}" method="post" th:object="${department}"
+              style="max-width: 500px; margin: 0 auto;">
+            <input type="hidden" th:field="*{id}">
+            <div class="border border-secondary rounded p-3">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Название:</label>
+                    <div class="col-sm-8">
+                        <input type="text" th:field="*{name}" class="form-control" required minlength="3" maxlength="55" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Пароль:</label>
+                    <div class="col-sm-8">
+                        <input type="password" th:field="*{password}" class="form-control" required minlength="4" maxlength="20" />
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a class="btn btn-danger" th:href="@{/departments}" role="button"><i class="fa fa-cancel"></i> Отмена</a>
+                    <button type="submit" class="btn btn-primary m-2"><i class="fa fa-save"></i> Сохранить</button>
+                </div>
+            </div>
+        </form>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments :: head}"></head>
+<body>
+
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: h1"></div>
+
+<div class="dropdown">
+    <ul class="navbar nav ml-auto">
+        <li>
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                Выбрать отдел
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a th:text="Все" class="dropdown-item" href="/posts">Все</a>
+                <div class="dropdown-divider"></div>
+                <th:block th:each="department: ${departments}">
+                    <a th:text="${department.getName()}" class="dropdown-item"
+                       th:href="@{/posts/{id}(id=${department.getId()})}"></a>
+                </th:block>
+            </div>
+        </li>
+        <li>
+            <form class="form-inline" th:action="@{/posts/search}" method="post">
+                <input class="form-control mr-sm-2" name="keyword" th:value="${keyword}" type="search"
+                       placeholder="поиск по тексту" aria-label="Search">
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Поиск</button>
+            </form>
+        </li>
+    </ul>
+</div>
+
+<div class="ml-3 mr-3">
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th><a class="sorted" sd:pagination-sort="id">ID</a></th>
+            <th><a class="sorted" sd:pagination-sort="toDepartment">Кому</a></th>
+            <th><a class="sorted" sd:pagination-sort="fromEmployee">Отправил</a></th>
+            <th><a class="sorted" sd:pagination-sort="textMsg">Текст</a></th>
+            <th><a class="sorted" sd:pagination-sort="taskExecutor">Исполнитель</a></th>
+            <th><a class="sorted" sd:pagination-sort="createdAt">Дата создания</a></th>
+            <th><a class="sorted" sd:pagination-sort="updatedAt">Дата обновления</a></th>
+            <th><a class="sorted" sd:pagination-sort="fileId">Файл</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post: ${posts}">
+            <td th:text="${post.getId()}"/>
+            <td th:text="${post.getToDepartment().getName()}"/>
+            <td th:text="${post.getFromEmployee().getFullName()}"/>
+            <td th:text="${post.getTextMsg()}"/>
+            <td th:text="${post?.getTaskExecutor()?.getFullName()} ?: '-'"/>
+            <td th:text="${#dates.format(post.getCreatedAt(), 'dd-MMM-yyyy HH:mm')}"></td>
+            <td th:text="${#dates.format(post.getUpdatedAt(), 'dd-MMM-yyyy HH:mm')}"></td>
+            <td th:text="${post.getFileId()!=null} ? '+' : '-'"/>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments :: pagination"></div>
+
+</body>
+</html>
