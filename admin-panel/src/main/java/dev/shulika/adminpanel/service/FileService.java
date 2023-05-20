@@ -34,16 +34,17 @@ public class FileService {
                 String.class,
                 token, fileId
         );
-        String filePath = null;
         if (response.getStatusCode() == HttpStatus.OK) {
             System.out.println("++++++++++++++++++ Ok - " + response.getBody());
             JSONObject jsonObject = new JSONObject(response.getBody());
-            filePath = String.valueOf(jsonObject.getJSONObject("result").getString("file_path"));
+            var filePath = String.valueOf(jsonObject.getJSONObject("result").getString("file_path"));
+            String fullUri = fileStorageUri.replace("{token}", token).replace("{filePath}", filePath);
+            return fullUri;
         } else {
             log.error("----- IN FileService :: getDownLoadLink :: FAIL get filePath ----");
+            return "";
         }
-        String fullUri = fileStorageUri.replace("{token}", token).replace("{filePath}", filePath);
-        return fullUri;
+
     }
 
 }
