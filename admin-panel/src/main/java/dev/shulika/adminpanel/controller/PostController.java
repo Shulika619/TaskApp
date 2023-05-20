@@ -1,6 +1,7 @@
 package dev.shulika.adminpanel.controller;
 
 import dev.shulika.adminpanel.service.DepartmentService;
+import dev.shulika.adminpanel.service.FileService;
 import dev.shulika.adminpanel.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class PostController {
     private final PostService postService;
     private final DepartmentService departmentService;
+    private final FileService fileService;
 
     @GetMapping("/posts")
     public String findAllPosts(
@@ -76,5 +79,13 @@ public class PostController {
         model.addAttribute("departments", departments);
         log.info("+++++ IN PostController :: searchPost :: COMPLETE +++++");
         return "posts";
+    }
+
+    @GetMapping("/posts/files")
+    public String downLoadFile(@RequestParam("id") String id) {
+        log.info("+++++ IN PostController :: downLoadFile :: START +++++");
+        var downLoadLink = fileService.getDownLoadLink(id);
+        log.info("+++++ IN PostController :: downLoadFile :: COMPLETE +++++");
+        return "redirect:"+downLoadLink;
     }
 }

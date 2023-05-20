@@ -55,7 +55,12 @@
             <td th:text="${post?.getTaskExecutor()?.getFullName()} ?: '-'"/>
             <td th:text="${#dates.format(post.getCreatedAt(), 'dd-MMM-yyyy HH:mm')}"></td>
             <td th:text="${#dates.format(post.getUpdatedAt(), 'dd-MMM-yyyy HH:mm')}"></td>
-            <td th:text="${post.getFileId()!=null} ? '+' : '-'"/>
+<!--            <td th:text="${post.getFileId()!=null} ? '+' : '-'"/>-->
+            <td th:if="${post.getFileId()!=null}">
+                <a class="btn btn-primary" th:href="@{/posts/files(id=${post.getFileId()})}" role="button" target="_blank">
+                <i class="fa fa-download"></i> Файл</a>
+            </td>
+            <td th:unless="${post.getFileId()!=null}">-</td>
         </tr>
         </tbody>
     </table>

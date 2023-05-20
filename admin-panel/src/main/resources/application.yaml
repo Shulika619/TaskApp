@@ -20,6 +20,10 @@ spring:
     enabled: true
     default-schema: xtel
 
+token: 6269024384:AAHL-tL2fumTLhkg2Zy8l-atecL2QDxPdtc
+file_info_uri: https://api.telegram.org/bot{token}/getFile?file_id={fileId}
+file_storage_uri: https://api.telegram.org/file/bot{token}/{filePath}
+
 logging:
   level:
     org:
